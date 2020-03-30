@@ -1,0 +1,5 @@
+# pycharm generated files
+.idea/*
+
+# Log files
+log/*
