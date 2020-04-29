@@ -3,3 +3,9 @@
 
 # Log files
 log/*
+
+# Input files
+input/*
+
+# Output files
+output/*
