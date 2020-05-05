@@ -38,12 +38,17 @@ def exact_match():
     exact_df = pd.DataFrame()
     count = 0
     for unq_name in distinct_names:
-        if count % 100 == 0:
+        if count % 1000 == 0:
             logging.info('Processing row %d', count)
         count += 1
         matched_df = inst_df[inst_df['institution_name'] == unq_name]
-        if matched_df.shape[0] > 1:
-            exact_df = exact_df.append(matched_df)
+        matched_df = matched_df.drop_duplicates(subset=['dbt_entity_id'])
+        distinct_country = matched_df['country_of_source'].unique()
+
+        for country in distinct_country:
+            tmp = matched_df[matched_df['country_of_source'] == country]
+            if tmp.shape[0] > 1:
+                exact_df = exact_df.append(tmp)
 
     exact_df.to_csv(output_file, index=False);
 
