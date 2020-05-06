@@ -37,6 +37,7 @@ def exact_match():
 
     exact_df = pd.DataFrame()
     count = 0
+    group_count = 0
     for unq_name in distinct_names:
         if count % 1000 == 0:
             logging.info('Processing row %d', count)
@@ -48,7 +49,10 @@ def exact_match():
         for country in distinct_country:
             tmp = matched_df[matched_df['country_of_source'] == country]
             if tmp.shape[0] > 1:
+                tmp_col = [group_count] * tmp.shape[0]
+                tmp['group'] = tmp_col
                 exact_df = exact_df.append(tmp)
+                group_count += 1
 
     exact_df.to_csv(output_file, index=False);
 
